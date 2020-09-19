@@ -35,3 +35,15 @@ Route::get('v2/schedule/weekday/{weekday}', [App\Http\Controllers\API\ScheduleCo
 
 Route::get('v2/schedule/weekday/{weekday}/{search}', [App\Http\Controllers\API\ScheduleController::class, 'weekdaySearch'])
     ->name('schedule.weekday.search');
+
+
+/*
+|--------------------------------------------------------------------------
+| Student Routes
+|--------------------------------------------------------------------------
+ */
+
+Route::resource('v2/teacher', \API\TeacherController::class);
+
+Route::get('v2/teacher/search/{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
+    ->name('teacher.search');
