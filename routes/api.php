@@ -27,11 +27,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('v2/schedule', \API\ScheduleController::class);
 
-Route::get('v2/schedule/search{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
+Route::get('v2/schedule/search/{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
     ->name('schedule.search');
 
-Route::get('v2/schedule/weekday{weekday}', [App\Http\Controllers\API\ScheduleController::class, 'weekday'])
+Route::get('v2/schedule/weekday/{weekday}', [App\Http\Controllers\API\ScheduleController::class, 'weekday'])
     ->name('schedule.weekday');
 
-Route::get('v2/schedule/weekday{weekday}/{search}', [App\Http\Controllers\API\ScheduleController::class, 'weekdaySearch'])
+Route::get('v2/schedule/weekday/{weekday}/{search}', [App\Http\Controllers\API\ScheduleController::class, 'weekdaySearch'])
     ->name('schedule.weekday.search');
