@@ -47,3 +47,14 @@ Route::resource('v2/teacher', \API\TeacherController::class);
 
 Route::get('v2/teacher/search/{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
     ->name('teacher.search');
+
+/*
+|--------------------------------------------------------------------------
+| Student Routes
+|--------------------------------------------------------------------------
+ */
+
+Route::resource('v2/student', \API\StudentController::class);
+
+Route::get('v2/student/search/{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
+    ->name('student.search');
