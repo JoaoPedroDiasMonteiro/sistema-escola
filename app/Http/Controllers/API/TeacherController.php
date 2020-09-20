@@ -16,12 +16,13 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teacher = Teacher::query()->orderBy('name', 'asc')
+        $teacher = Teacher::query()
+            ->orderBy('name', 'asc')
             ->with('schedule')
-            ->paginate(100);
+            ->paginate(60);
 
         foreach ($teacher as $item) {
-            $item->studentSchedules = $item->schedule()->get()->count();
+            $item->teacherSchedules = $item->schedule()->get()->count();
         }
 
         return Response::json($teacher, 200);
@@ -36,11 +37,12 @@ class TeacherController extends Controller
     public function search(Request $request)
     {
         $teacher = Teacher::query()
+            ->orderBy('name', 'asc')
             ->where('name', 'LIKE', "%{$request->search}%")
             ->paginate(60);
 
         foreach ($teacher as $item) {
-            $item->studentSchedules = $item->schedule()->get()->count();
+            $item->teacherSchedules = $item->schedule()->get()->count();
         }
 
         return Response::json($teacher, 200);
@@ -49,7 +51,7 @@ class TeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response | \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -66,7 +68,7 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Teacher  $teacher
+     * @param \App\Teacher $teacher
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Teacher $teacher)
@@ -77,8 +79,8 @@ class TeacherController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Teacher  $teacher
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Teacher $teacher
      * @return \Illuminate\Http\Response | \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Teacher $teacher)
