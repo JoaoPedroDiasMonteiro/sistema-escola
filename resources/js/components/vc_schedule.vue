@@ -59,7 +59,7 @@
         data() {
             return {
                 title: '',
-                url: 'api/schedule/weekday/monday',
+                url: 'api/v2/schedule/weekday/monday',
                 tab: 'monday',
             }
         },
@@ -72,9 +72,9 @@
             setTab(tab) {
                 this.tab = tab;
                 if (tab === 'all') {
-                    this.url = 'api/schedule'
+                    this.url = 'api/v2/schedule'
                 } else {
-                    this.url = 'api/schedule/weekday/' + this.tab
+                    this.url = 'api/v2/schedule/weekday/' + this.tab
                 }
             }
         },

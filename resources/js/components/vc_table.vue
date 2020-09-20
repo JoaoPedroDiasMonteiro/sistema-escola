@@ -5,11 +5,9 @@
             <h1 class="text-center col-12">{{this.tableData.title}}</h1>
         </div>
 
-        <div class="row">
-            <form class="form-inline my-2 ml-auto">
-                <input v-model="searchKey" class="form-control mr-sm-2" type="search" placeholder="Search"
+        <div class="row my-3">
+                <input v-model="searchKey" @change="updateData" class="form-control ml-auto col-3" type="search" placeholder="Search"
                        aria-label="Search">
-            </form>
         </div>
 
         <div class="row">
@@ -22,7 +20,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(item, index) in filteredData">
+                <tr v-for="(item, index) in data">
                     <th scope="row">{{index + 1}}</th>
                     <td v-for="prop in tableData.names">{{ item[prop] }}</td>
                     <td class="text-center"><a :href=" actionUrl + '/edit/' + item.id"  target="_blank">Edit</a></td>
@@ -58,7 +56,6 @@
                 tableData: {},
                 url: '',
                 data: [],
-                fullData: [],
                 pagination: [],
                 searchKey: '',
                 actionUrl: ''
@@ -73,24 +70,17 @@
             this.url = this.prop_url;
             this.actionUrl = this.prop_action_url;
 
-            const t = this;
             this.get(this.url);
-            this.get(this.url + '/all', function (req) {
-                t.fullData = req.data;
-            });
         },
 
         watch: {
             prop_url: function(e){
+                this.searchKey = '';
                 this.url = e
             },
 
             url: function () {
                 this.get(this.url);
-                const t = this;
-                this.get(this.url + '/all', function (req) {
-                    t.fullData = req.data;
-                });
             }
         },
 
@@ -104,7 +94,7 @@
 
                 this.pagination = {last_page: 1};
 
-                return this.fullData.filter(c => {
+                return this.data.filter(c => {
                     const items = [];
                     this.tableData.names.forEach(function (e) {
                         items.push(c[e].toString().toLowerCase());
@@ -117,7 +107,7 @@
 
         methods: {
             navigate(page) {
-                this.get(this.url + '?page=' + page);
+                this.get(this.pagination.path + '?page=' + page);
             },
             get(url, callback = null) {
                 this.$http.get(url).then((req) => {
@@ -128,6 +118,18 @@
                     this.data = req.data.data;
                     this.pagination = req.data;
                 })
+            },
+            updateData(){
+                if (this.searchKey){
+                    if (this.url.indexOf('weekday') > 0) {
+                        this.get(this.url + '/' + this.searchKey);
+                        return
+                    }
+                    this.get(this.url + '/search/' + this.searchKey)
+                } else {
+                    this.get(this.url)
+                }
+
             }
         },
 

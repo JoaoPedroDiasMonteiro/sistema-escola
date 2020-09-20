@@ -2019,7 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       title: '',
-      url: 'api/schedule/weekday/monday',
+      url: 'api/v2/schedule/weekday/monday',
       tab: 'monday'
     };
   },
@@ -2029,9 +2029,9 @@ __webpack_require__.r(__webpack_exports__);
       this.tab = tab;
 
       if (tab === 'all') {
-        this.url = 'api/schedule';
+        this.url = 'api/v2/schedule';
       } else {
-        this.url = 'api/schedule/weekday/' + this.tab;
+        this.url = 'api/v2/schedule/weekday/' + this.tab;
       }
     }
   },
@@ -2091,8 +2091,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2110,7 +2108,6 @@ __webpack_require__.r(__webpack_exports__);
       tableData: {},
       url: '',
       data: [],
-      fullData: [],
       pagination: [],
       searchKey: '',
       actionUrl: ''
@@ -2124,22 +2121,15 @@ __webpack_require__.r(__webpack_exports__);
     };
     this.url = this.prop_url;
     this.actionUrl = this.prop_action_url;
-    var t = this;
     this.get(this.url);
-    this.get(this.url + '/all', function (req) {
-      t.fullData = req.data;
-    });
   },
   watch: {
     prop_url: function prop_url(e) {
+      this.searchKey = '';
       this.url = e;
     },
     url: function url() {
       this.get(this.url);
-      var t = this;
-      this.get(this.url + '/all', function (req) {
-        t.fullData = req.data;
-      });
     }
   },
   computed: {
@@ -2155,7 +2145,7 @@ __webpack_require__.r(__webpack_exports__);
       this.pagination = {
         last_page: 1
       };
-      return this.fullData.filter(function (c) {
+      return this.data.filter(function (c) {
         var items = [];
 
         _this.tableData.names.forEach(function (e) {
@@ -2168,7 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     navigate: function navigate(page) {
-      this.get(this.url + '?page=' + page);
+      this.get(this.pagination.path + '?page=' + page);
     },
     get: function get(url) {
       var _this2 = this;
@@ -2183,6 +2173,18 @@ __webpack_require__.r(__webpack_exports__);
         _this2.data = req.data.data;
         _this2.pagination = req.data;
       });
+    },
+    updateData: function updateData() {
+      if (this.searchKey) {
+        if (this.url.indexOf('weekday') > 0) {
+          this.get(this.url + '/' + this.searchKey);
+          return;
+        }
+
+        this.get(this.url + '/search/' + this.searchKey);
+      } else {
+        this.get(this.url);
+      }
     }
   },
   name: "vc_table"
@@ -38098,34 +38100,33 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("form", { staticClass: "form-inline my-2 ml-auto" }, [
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.searchKey,
-              expression: "searchKey"
-            }
-          ],
-          staticClass: "form-control mr-sm-2",
-          attrs: {
-            type: "search",
-            placeholder: "Search",
-            "aria-label": "Search"
-          },
-          domProps: { value: _vm.searchKey },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.searchKey = $event.target.value
-            }
+    _c("div", { staticClass: "row my-3" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.searchKey,
+            expression: "searchKey"
           }
-        })
-      ])
+        ],
+        staticClass: "form-control ml-auto col-3",
+        attrs: {
+          type: "search",
+          placeholder: "Search",
+          "aria-label": "Search"
+        },
+        domProps: { value: _vm.searchKey },
+        on: {
+          change: _vm.updateData,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.searchKey = $event.target.value
+          }
+        }
+      })
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -38155,7 +38156,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "tbody",
-          _vm._l(_vm.filteredData, function(item, index) {
+          _vm._l(_vm.data, function(item, index) {
             return _c(
               "tr",
               [
