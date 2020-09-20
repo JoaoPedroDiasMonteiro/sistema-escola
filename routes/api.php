@@ -45,7 +45,7 @@ Route::get('v2/schedule/weekday/{weekday}/{search}', [App\Http\Controllers\API\S
 
 Route::resource('v2/teacher', \API\TeacherController::class);
 
-Route::get('v2/teacher/search/{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
+Route::get('v2/teacher/search/{search}', [App\Http\Controllers\API\TeacherController::class, 'search'])
     ->name('teacher.search');
 
 /*
@@ -56,5 +56,5 @@ Route::get('v2/teacher/search/{search}', [App\Http\Controllers\API\ScheduleContr
 
 Route::resource('v2/student', \API\StudentController::class);
 
-Route::get('v2/student/search/{search}', [App\Http\Controllers\API\ScheduleController::class, 'search'])
+Route::get('v2/student/search/{search}', [App\Http\Controllers\API\StudentController::class, 'search'])
     ->name('student.search');
