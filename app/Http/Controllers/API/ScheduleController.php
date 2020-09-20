@@ -16,16 +16,12 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedule = Schedule::query()->with('teacher')->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')->orderBy('hour', 'asc')
-            ->with('student')->paginate(60);
-
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
-
+        $schedule = $this->queryWithJoin()
+            ->orderBy('teacher', 'asc')
+            ->orderBy('weekday', 'asc')
+            ->orderBy('hour', 'asc')
+            ->paginate(60);
+        
         return Response::json($schedule, 200);
     }
 
@@ -56,15 +52,12 @@ class ScheduleController extends Controller
      */
     public function weekday(Request $request)
     {
-        $schedule = Schedule::query()->with('teacher')->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')->orderBy('hour', 'asc')
-            ->with('student')->where('weekday', '=', $request->weekday)->paginate(60);
-
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
+        $schedule = $this->queryWithJoin()
+            ->where('weekday', '=', $request->weekday)
+            ->orderBy('teacherName', 'asc')
+            ->orderBy('weekday', 'asc')
+            ->orderBy('hour', 'asc')
+            ->paginate(60);
 
         return Response::json($schedule, 200);
     }
