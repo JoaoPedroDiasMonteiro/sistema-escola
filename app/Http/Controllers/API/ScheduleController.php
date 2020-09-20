@@ -17,11 +17,8 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedule = $this->queryWithJoin()
-            ->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')
-            ->orderBy('hour', 'asc')
             ->paginate(60);
-        
+
         return Response::json($schedule, 200);
     }
 
@@ -54,9 +51,6 @@ class ScheduleController extends Controller
     {
         $schedule = $this->queryWithJoin()
             ->where('weekday', '=', $request->weekday)
-            ->orderBy('teacherName', 'asc')
-            ->orderBy('weekday', 'asc')
-            ->orderBy('hour', 'asc')
             ->paginate(60);
 
         return Response::json($schedule, 200);
@@ -160,6 +154,9 @@ class ScheduleController extends Controller
         return Schedule::query()
             ->select('schedules.*', 'T.name as teacherName', 'S.name as studentName')
             ->join('teachers as T', 'T.id', '=', 'teacher')
-            ->join('students as S', 'S.id', '=', 'student');
+            ->join('students as S', 'S.id', '=', 'student')
+            ->orderBy('teacherName', 'asc')
+            ->orderBy('weekday', 'asc')
+            ->orderBy('hour', 'asc');
     }
 }
