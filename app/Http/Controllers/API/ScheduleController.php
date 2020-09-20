@@ -37,20 +37,13 @@ class ScheduleController extends Controller
      */
     public function search(Request $request)
     {
-        $schedule = Schedule::query()
-            ->orWhere('weekday', 'LIKE', "%{$request->search}%")
-            ->orWhereHas('teacher', function ($query) use ($request) {
-                $query->where('name', 'LIKE', "%{$request->search}%");
-            })
-            ->orWhereHas('student', function ($query) use ($request) {
-                $query->where('name', 'LIKE', "%{$request->search}%");
-            })
-            ->orWhere('hour', 'LIKE',"%{$request->search}%")->paginate(60);
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
+        $schedule = $this->queryWithJoin()
+            ->where(function ($query) use ($request) {
+                $query->where('weekday', 'LIKE', "%{$request->search}%")
+                    ->orWhere('hour', 'LIKE', "%{$request->search}%")
+                    ->orWhere('T.name', 'LIKE', "%{$request->search}%")
+                    ->orWhere('S.name', 'LIKE', "%{$request->search}%");
+            })->paginate(60);
 
         return Response::json($schedule, 200);
     }
@@ -84,21 +77,13 @@ class ScheduleController extends Controller
      */
     public function weekdaySearch(Request $request)
     {
-        $schedule = Schedule::query()
-            ->where('weekday', '=', "%{$request->weekday}%")
-            ->orWhere('weekday', 'LIKE', "%{$request->search}%")
-            ->orWhereHas('teacher', function ($query) use ($request) {
-                $query->where('name', 'LIKE', "%{$request->search}%");
-            })
-            ->orWhereHas('student', function ($query) use ($request) {
-                $query->where('name', 'LIKE', "%{$request->search}%");
-            })
-            ->orWhere('hour', 'LIKE',"%{$request->search}%")->paginate(60);
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
+        $schedule = $this->queryWithJoin()
+            ->where('weekday', 'LIKE', "%{$request->weekday}%")
+            ->where(function ($query) use ($request) {
+                $query->where('hour', 'LIKE', "%{$request->search}%")
+                    ->orWhere('T.name', 'LIKE', "%{$request->search}%")
+                    ->orWhere('S.name', 'LIKE', "%{$request->search}%");
+            })->paginate(60);
 
         return Response::json($schedule, 200);
     }
@@ -170,5 +155,18 @@ class ScheduleController extends Controller
         }
 
         return Response::make('deleted', 200);
+    }
+
+    /**
+     * Return schedule query builder with relationships joins
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    private function queryWithJoin()
+    {
+        return Schedule::query()
+            ->select('schedules.*', 'T.name as teacherName', 'S.name as studentName')
+            ->join('teachers as T', 'T.id', '=', 'teacher')
+            ->join('students as S', 'S.id', '=', 'student');
     }
 }
