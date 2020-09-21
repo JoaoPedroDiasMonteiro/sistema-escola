@@ -21,13 +21,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item {{!empty($uri) && $uri === 'home' ? 'active' : ''}}">
-                        <a class="nav-link" href="{{url('/')}}">Schedule</a>
+                        <a class="nav-link" href="{{route('schedule.index')}}">Schedule</a>
                     </li>
                     <li class="nav-item {{!empty($uri) &&  $uri === 'student' ? 'active' : ''}}">
-                        <a class="nav-link" href="{{url('/students')}}">Students</a>
+                        <a class="nav-link" href="{{route('student.index')}}">Students</a>
                     </li>
                     <li class="nav-item {{!empty($uri) && $uri  === 'teacher' ? 'active' : ''}}">
-                        <a class="nav-link" href="{{url('/teachers')}}">Teachers</a>
+                        <a class="nav-link" href="{{route('teacher.index')}}">Teachers</a>
                     </li>
                 </ul>
             </div>
