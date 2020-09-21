@@ -13,7 +13,7 @@
         <div class="row">
             <vc_table
                 :prop_table_rows="['name', 'students']"
-                prop_url="api/teacher"
+                prop_url="api/v2/teacher"
                 :prop_table_names="['name', 'teacherSchedules']"
                 prop_action_url="teacher"
             ></vc_table>

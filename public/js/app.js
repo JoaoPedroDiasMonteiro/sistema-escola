@@ -38173,7 +38173,7 @@ var render = function() {
                     "a",
                     {
                       attrs: {
-                        href: _vm.actionUrl + "/edit/" + item.id,
+                        href: _vm.actionUrl + "/" + item.id + "/edit/",
                         target: "_blank"
                       }
                     },

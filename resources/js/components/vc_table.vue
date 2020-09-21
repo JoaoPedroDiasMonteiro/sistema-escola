@@ -23,7 +23,7 @@
                 <tr v-for="(item, index) in data">
                     <th scope="row">{{index + 1}}</th>
                     <td v-for="prop in tableData.names">{{ item[prop] }}</td>
-                    <td class="text-center"><a :href=" actionUrl + '/edit/' + item.id"  target="_blank">Edit</a></td>
+                    <td class="text-center"><a :href=" actionUrl + '/' + item.id + '/edit/'" target="_blank">Edit</a></td>
                     <td class="text-center"><a :href=" actionUrl + '/delete/' + item.id" target="_blank">Delete</a></td>
                 </tr>
                 </tbody>

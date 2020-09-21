@@ -6,7 +6,7 @@
             <h1>Edit #{{$teacher->id}}</h1>
         </div>
         <div class="row justify-content-center">
-            <form action="{{url('api/teacher/edit/' . $teacher->id)}}" method="post">
+            <form action="{{url('teacher/' . $teacher->id)}}" method="post">
                 @csrf
                 @method('put')
                 <div class="form-row">
