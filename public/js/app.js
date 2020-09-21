@@ -2006,14 +2006,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -37880,10 +37872,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "container" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1),
-      _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("ul", { staticClass: "nav nav-pills nav-fill col-12" }, [
           _c("li", { staticClass: "nav-item" }, [
@@ -38047,31 +38035,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center pt-5 pb-5" }, [
-      _c("h1", [_vm._v("Schedule")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pt-2 pb-2" }, [
-      _c(
-        "a",
-        {
-          staticClass: "btn btn-outline-primary",
-          attrs: { href: "schedules/new", target: "_blank" }
-        },
-        [_vm._v("+ Add New Schedule")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
