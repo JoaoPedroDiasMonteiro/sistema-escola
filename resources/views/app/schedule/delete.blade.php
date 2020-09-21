@@ -2,7 +2,7 @@
 
 @section('content')
     Deleting...
-    <form class="d-none" id="deleteForm" action="{{url('schedule/' . $schedule)}}" method="post">
+    <form class="d-none" id="deleteForm" action="{{route('schedule.destroy' , $schedule)}}" method="post">
         @csrf
         @method('delete')
     </form>

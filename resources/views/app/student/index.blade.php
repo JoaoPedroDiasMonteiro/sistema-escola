@@ -7,7 +7,7 @@
         </div>
 
         <div>
-            <a class="btn btn-outline-primary" href="{{url('/students/new')}}" target="_blank">+ Add New Student</a>
+            <a class="btn btn-outline-primary" href="{{route('student.create')}}" target="_blank">+ Add New Student</a>
         </div>
 
         <div class="row">

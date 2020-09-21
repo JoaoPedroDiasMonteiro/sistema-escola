@@ -2,7 +2,7 @@
 
 @section('content')
     Deleting...
-    <form class="d-none" id="deleteForm" action="{{url('student/' . $student)}}" method="post">
+    <form class="d-none" id="deleteForm" action="{{route('student.destroy' , $student)}}" method="post">
         @csrf
         @method('delete')
     </form>
