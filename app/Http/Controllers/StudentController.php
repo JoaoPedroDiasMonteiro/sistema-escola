@@ -12,33 +12,13 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $student = Student::query()->orderBy('name', 'asc')
-            ->with('schedule')
-            ->paginate(100);
-
-        foreach ($student as $item) {
-            $item->studentSchedules = $item->schedule()->get()->count();
-        }
-
-        return Response::json($student, 200);
+        return view('app.student.index');
     }
 
-    public function all()
-    {
-        $student = Student::query()->orderBy('name', 'asc')
-            ->with('schedule')
-            ->get();
-
-        foreach ($student as $item) {
-            $item->studentSchedules = $item->schedule()->get()->count();
-        }
-
-        return Response::json($student, 200);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -79,7 +59,7 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
-        return Response::json($student);
+
     }
 
     /**
