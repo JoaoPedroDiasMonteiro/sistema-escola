@@ -11,33 +11,13 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $teacher = Teacher::query()->orderBy('name', 'asc')
-            ->with('schedule')
-            ->paginate(30);
-
-        foreach ($teacher as $item) {
-            $item->teacherSchedules = $item->schedule()->get()->count();
-        }
-
-        return Response::json($teacher, 200);
+        return view('app.teacher.index')->with('uri', 'teacher');
     }
 
-    public function all()
-    {
-        $teacher = Teacher::query()->orderBy('name', 'asc')
-            ->with('schedule')
-            ->get();
-
-        foreach ($teacher as $item) {
-            $item->teacherSchedules = $item->schedule()->get()->count();
-        }
-
-        return Response::json($teacher, 200);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -78,7 +58,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        return Response::json($teacher);
+
     }
 
     /**
