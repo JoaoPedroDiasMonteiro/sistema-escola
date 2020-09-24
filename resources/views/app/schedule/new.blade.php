@@ -6,7 +6,7 @@
             <h1>New Schedule</h1>
         </div>
         <div class="row justify-content-center">
-            <form action="{{url('api/schedule/new')}}" method="post">
+            <form action="{{route('schedule.store')}}" method="post">
                 @csrf
                 <div class="form-row">
                     <div class="form-group">

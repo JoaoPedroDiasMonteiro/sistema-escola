@@ -1,14 +1,6 @@
 <template>
     <div>
         <div class="container">
-            <div class="text-center pt-5 pb-5">
-                <h1>Schedule</h1>
-            </div>
-
-            <div class="pt-2 pb-2">
-                <a class="btn btn-outline-primary" href="schedules/new" target="_blank">+ Add New Schedule</a>
-            </div>
-
             <div class="row">
                 <ul class="nav nav-pills nav-fill col-12">
                     <li class="nav-item">
@@ -59,7 +51,7 @@
         data() {
             return {
                 title: '',
-                url: 'api/schedule/weekday/monday',
+                url: 'api/v2/schedule/weekday/monday',
                 tab: 'monday',
             }
         },
@@ -72,9 +64,9 @@
             setTab(tab) {
                 this.tab = tab;
                 if (tab === 'all') {
-                    this.url = 'api/schedule'
+                    this.url = 'api/v2/schedule'
                 } else {
-                    this.url = 'api/schedule/weekday/' + this.tab
+                    this.url = 'api/v2/schedule/weekday/' + this.tab
                 }
             }
         },

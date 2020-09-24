@@ -7,13 +7,13 @@
         </div>
 
         <div>
-            <a class="btn btn-outline-primary" href="{{url('/students/new')}}" target="_blank">+ Add New Student</a>
+            <a class="btn btn-outline-primary" href="{{route('student.create')}}" target="_blank">+ Add New Student</a>
         </div>
 
         <div class="row">
             <vc_table
                 :prop_table_rows="['name', 'registered in']"
-                prop_url="api/student"
+                prop_url="api/v2/student"
                 :prop_table_names="['name', 'studentSchedules']"
                 prop_action_url="student"
             ></vc_table>

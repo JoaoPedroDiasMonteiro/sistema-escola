@@ -6,7 +6,7 @@
         <h1>New Teacher</h1>
     </div>
     <div class="row justify-content-center">
-        <form action="{{url('api/teacher/new')}}" method="post">
+        <form action="{{route('teacher.store')}}" method="post">
             @csrf
             <div class="form-row">
                 <div class="form-group">

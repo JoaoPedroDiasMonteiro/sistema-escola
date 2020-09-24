@@ -2,7 +2,7 @@
 
 @section('content')
     Deleting...
-    <form class="d-none" id="deleteForm" action="{{url('api/teacher/delete/' . $teacher)}}" method="post">
+    <form class="d-none" id="deleteForm" action="{{route('teacher.destroy', $teacher)}}" method="post">
         @csrf
         @method('delete')
     </form>
@@ -10,7 +10,7 @@
 
 @section('scripts')
     <script>
-        const r = confirm("Deleting teacher#" + {{$teacher}} + "... Are you sure?");
+        const r = confirm("Deleting teacher#" + {{$teacher}} +"... Are you sure?");
         if (r) {
             $('#deleteForm').submit();
         } else {

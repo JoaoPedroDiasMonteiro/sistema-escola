@@ -17,60 +17,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $schedule = Schedule::query()->with('teacher')->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')->orderBy('hour', 'asc')
-            ->with('student')->paginate(60);
-
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
-
-        return Response::json($schedule, 200);
-    }
-
-    public function all()
-    {
-        $schedule = Schedule::query()->with('teacher')->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')->orderBy('hour', 'asc')
-            ->with('student')->get();
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
-
-        return Response::json($schedule, 200);
-    }
-
-    public function weekday(Request $request)
-    {
-        $schedule = Schedule::query()->with('teacher')->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')->orderBy('hour', 'asc')
-            ->with('student')->where('weekday', '=', $request->weekday)->paginate(60);
-
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
-
-        return Response::json($schedule, 200);
-    }
-
-    public function weekdayAll(Request $request)
-    {
-        $schedule = Schedule::query()->with('teacher')->orderBy('teacher', 'asc')
-            ->orderBy('weekday', 'asc')->orderBy('hour', 'asc')
-            ->with('student')->where('weekday', '=', $request->weekday)->get();
-
-        foreach ($schedule as $item) {
-            $item->teacherName = $item->teacher()->first()->name;
-            $item->studentName = $item->student()->first()->name;
-        }
-
-        return Response::json($schedule, 200);
+        return view('app.schedule.index');
     }
 
     /**
@@ -119,7 +66,7 @@ class ScheduleController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        return Response::json($schedule);
+
     }
 
     /**
@@ -133,7 +80,7 @@ class ScheduleController extends Controller
         $teachers = Teacher::all();
         $students = Student::query()->orderBy('name', 'asc')->get();
 
-        return view('app.scheduleEdit', [
+        return view('app.schedule.edit', [
             'schedule' => $schedule,
             'teachers' => $teachers,
             'students' => $students
